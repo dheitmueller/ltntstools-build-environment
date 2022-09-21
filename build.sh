@@ -9,14 +9,15 @@ DEP_LIBDVBPSI_TAG=
 DEP_FFMPEG_TAG=
 LIBKLSCTE35_TAG=
 LIBKLVANC_TAG=
+LIBNTT_TAG=
 LIBMEDIAINGO_TAG=v21.09
 
 if [ "$1" == "" ]; then
 	# Fine if they do not specify a tag
 	echo "No specific tag specified.  Using master"
-	#DEP_BITSTREAM_TAG=20ce4345061499abc0389e9cd837665a62ad6add
-	DEP_LIBDVBPSI_TAG=1.3.3
-	DEP_FFMPEG_TAG=9d3eb75cf637e6f2a664ad3ab67c4f785226f62e
+	DEP_BITSTREAM_TAG=20ce4345061499abc0389e9cd837665a62ad6add
+	DEP_LIBDVBPSI_TAG=d2a81c20a7704676048111b4f7ab24b95a904008
+	DEP_FFMPEG_TAG=release/4.4
 	LTNTSTOOLS_TAG=master
 elif [ "$1" == "--create-docker-builder" ]; then
 	docker build --network=host -f Dockerfile.builder -t ltntstools-builder .
