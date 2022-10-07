@@ -190,6 +190,13 @@ if [ ! -d libklscte35 ]; then
 	fi
 fi
 
+if [ ! -d libntt ]; then
+	git clone git@github.com:LTN-Global/libntt.git
+	if [ "$LIBNTT_TAG" != "" ]; then
+		cd libntt && git checkout $LIBNTT_TAG && cd ..
+	fi
+fi
+
 if [ ! -d libltntstools ]; then
 	git clone https://github.com/LTNGlobal-opensource/libltntstools.git
 	if [ "$LIBLTNTSTOOLS_TAG" != "" ]; then
@@ -198,7 +205,7 @@ if [ ! -d libltntstools ]; then
 fi
 
 if [ ! -d ltntstools ]; then
-	git clone https://github.com/LTNGlobal-opensource/ltntstools.git
+	git clone https://github.com/dheitmueller/ltntstools.git
 	if [ "$LTNTSTOOLS_TAG" != "" ]; then
 		cd ltntstools && git checkout $LTNTSTOOLS_TAG && cd ..
 	fi
@@ -249,6 +256,13 @@ pushd libklscte35
 	make install
 popd
 
+pushd libntt
+	./autogen.sh --build
+	./configure --prefix=$PWD/../target-root/usr
+	make -j$JOBS
+	make install
+popd
+
 pushd ffmpeg
 	export CFLAGS="-I$PWD/../target-root/usr/include"
 	export LDFLAGS="-L$PWD/../target-root/usr/lib -L$PWD/../target-root/usr/lib64 -lcrypto -lm -lsrt"
@@ -273,7 +287,7 @@ pushd ltntstools
 	export CFLAGS="-I$PWD/../target-root/usr/include"
 	export LDFLAGS="-L$PWD/../target-root/usr/lib -L$PWD/../target-root/usr/lib64"
 	./autogen.sh --build
-	./configure --prefix=$PWD/../target-root/usr --enable-shared=no
+	./configure --prefix=$PWD/../target-root/usr --enable-shared=no --enable-ntt=yes
 	make -j$JOBS
 	make install
 popd
